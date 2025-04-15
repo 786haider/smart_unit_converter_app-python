@@ -3,15 +3,13 @@ import pandas as pd
 import json
 from math import pi
 
-# Set page configuration
 st.set_page_config(
-    page_title="Smart Unit Converter",
+    page_title="Smart Unit Converter Of Haider",
     page_icon="🔄",
     layout="centered",
     initial_sidebar_state="expanded",
 )
 
-# Custom CSS to make the app more attractive
 st.markdown("""
 <style>
     .main-header {
@@ -51,7 +49,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Unit conversion data
+
 conversion_data = {
     "Length": {
         "Metre": 1.0,
@@ -157,15 +155,14 @@ conversion_data = {
 }
 
 def temp_convert(value, from_unit, to_unit):
-    # Convert to Celsius first
+    
     if from_unit == "Celsius":
         celsius = value
     elif from_unit == "Fahrenheit":
         celsius = (value - 32) * 5/9
     elif from_unit == "Kelvin":
         celsius = value - 273.15
-    
-    # Convert from Celsius to target unit
+
     if to_unit == "Celsius":
         return celsius
     elif to_unit == "Fahrenheit":
@@ -238,17 +235,13 @@ def format_number(number):
     else:
         return f"{number:.1f}"
 
-# Header
 st.markdown('<h1 class="main-header">🔄 Smart Unit Converter</h1>', unsafe_allow_html=True)
 st.markdown('<p style="text-align: center;">Convert between different units of measurement with ease</p>', unsafe_allow_html=True)
 
-# Main content in a card
 st.markdown('<div class="card">', unsafe_allow_html=True)
 
-# Conversion category selector
 category = st.selectbox("Select Category", list(conversion_data.keys()))
 
-# Create columns for input and output
 col1, col2 = st.columns(2)
 
 with col1:
@@ -260,26 +253,20 @@ with col2:
     st.subheader("To")
     to_unit = st.selectbox("To Unit", list(conversion_data[category].keys()), key="to_unit")
 
-# Perform conversion
 if category == "Temperature" and (from_unit != to_unit):
     result = temp_convert(input_value, from_unit, to_unit)
 else:
     if from_unit == to_unit:
         result = input_value
     else:
-        # Get the conversion factors
         from_factor = conversion_data[category][from_unit]
         to_factor = conversion_data[category][to_unit]
-        
-        # Convert to base unit then to target unit
         if from_factor != "base" and to_factor != "base":
             result = input_value * (from_factor / to_factor)
 
-# Display result
 st.markdown('<h2 class="sub-header" style="text-align: center; margin-top: 20px;">Result</h2>', unsafe_allow_html=True)
 st.markdown(f'<div style="text-align: center; font-size: 1.8rem; background-color: #e3f2fd; padding: 15px; border-radius: 10px;">{input_value} {from_unit} = <span style="color: #1E88E5; font-weight: bold;">{format_number(result)} {to_unit}</span></div>', unsafe_allow_html=True)
 
-# Display formula
 formula = get_formula(category, from_unit, to_unit, input_value, format_number(result))
 st.markdown('<div class="formula-box">', unsafe_allow_html=True)
 st.markdown('<span style="font-weight: bold;">Formula:</span>', unsafe_allow_html=True)
@@ -288,15 +275,11 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Add Conversion Tables section with an expander
 with st.expander("📊 View Conversion Table"):
-    if category != "Temperature":  # Skip temp as it uses special conversion
-        # Create a table showing conversions from the selected unit to all others
+    if category != "Temperature": 
         units = list(conversion_data[category].keys())
         if len(units) > 1:
-            base_value = 1.0  # Convert 1 of the from_unit
-            
-            # Create conversion list
+            base_value = 1.0 
             conversions = []
             for unit in units:
                 if unit != from_unit:
@@ -312,12 +295,12 @@ with st.expander("📊 View Conversion Table"):
                         f"Value (for 1 {from_unit})": format_number(converted)
                     })
             
-            # Display as a table
+          
             if conversions:
                 conversion_df = pd.DataFrame(conversions)
                 st.table(conversion_df)
 
-# Tips and examples in an expander
+
 with st.expander("💡 Tips and Examples"):
     st.markdown("""
     ### Common Conversions:
@@ -334,7 +317,6 @@ with st.expander("💡 Tips and Examples"):
     - For DIY projects, inches and feet are often used in the US
     """)
 
-# Additional features in a card
 st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown('<h2 class="sub-header">More Features</h2>', unsafe_allow_html=True)
 
@@ -352,7 +334,7 @@ with tab1:
     
     if st.button("Convert Bulk Values"):
         try:
-            # Parse input values
+           
             values = []
             for line in bulk_input.split('\n'):
                 for val in line.split(','):
@@ -361,7 +343,6 @@ with tab1:
                     except ValueError:
                         pass
             
-            # Perform conversions
             if values:
                 results = []
                 for val in values:
@@ -379,8 +360,6 @@ with tab1:
                         "Input Value": val,
                         f"Result ({to_unit})": format_number(converted)
                     })
-                
-                # Display as a table
                 st.table(pd.DataFrame(results))
         except Exception as e:
             st.error(f"Error processing bulk conversion: {e}")
@@ -425,7 +404,6 @@ with tab2:
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# About this converter card
 with st.expander("ℹ️ About this Unit Converter"):
     st.markdown("""
     This comprehensive unit converter allows you to convert between various units across different categories:
@@ -443,4 +421,4 @@ with st.expander("ℹ️ About this Unit Converter"):
     """)
 
 # Footer
-st.markdown('<div class="footer">Created by Haider Hussain using Python and Streamlit</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer">Created by Haider Hussain [GitHub](https://github.com/786haider/smart_unit_converter_app-python.git)] using Python and Streamlit</div>', unsafe_allow_html=True)
