@@ -421,4 +421,4 @@ with st.expander("ℹ️ About this Unit Converter"):
     """)
 
 # Footer
-st.markdown('<div class="footer">Created by Haider Hussain [GitHub](https://github.com/786haider/smart_unit_converter_app-python.git)] using Python and Streamlit</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer">Created by Haider Hussain **[GitHub](https://github.com/786haider/smart_unit_converter_app-python.git)]** using Python and Streamlit</div>', unsafe_allow_html=True)
